@@ -15,7 +15,7 @@ resource "azurerm_service_plan" "plan" {
   os_type             = "Linux"
   sku_name            = "P1" # S1, S2, S3 , P1, P2, P3
 
-  depends_on = [azurerm_resource_group]
+  depends_on = [azurerm_resource_group.rg]
 }
 
 ############################################################
@@ -23,7 +23,7 @@ resource "azurerm_service_plan" "plan" {
 ############################################################ 
 
 resource "azurerm_linux_web_app" "webappbrief13" {
-  name                = "webapp13${count.index + 1}"
+  name                = "webappwordpress${count.index + 1}"
   resource_group_name = var.resource_group_name
   location            = var.resource_group_location
   service_plan_id     = azurerm_service_plan.plan.id
