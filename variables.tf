@@ -1,26 +1,35 @@
-
-
-variable "countwebapp" {
-  type = number
-  description = "nombre de webapps"
+#Variables des ressources communes 
+variable "nbress" {
+  type        = number
+  description = "nombre de ressources"
+  default     = 20
+}
+variable "resource-group-name" {
+  type    = string
+  default = "Brief13wordpress"
 }
 
-variable "location" {
-  type = string
+variable "resource-group-location" {
+  type    = string
+  default = "West Europe"
 }
-variable "app-service-plan" {
-  type = string
-  default = "group2plan"
+
+#variable pour l'app service
+variable "app-service-plan-name" {
+  type    = string
+  default = "brief13serviceplan"
 }
-variable "location" {
-  type = string
+
+
+#variable pour le groupe MariaDB
+variable "resource_pfx" {
+  type    = string
+  default = "b13"
 }
-variable "location" {
-  type = string
+
+variable "admin_login" {
+  type    = string
+  default = "adminLogin1"
 }
-variable "location" {
-  type = string
-}
-variable "location" {
-  type = string
-}
+
+
