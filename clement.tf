@@ -16,7 +16,7 @@ resource "azurerm_storage_account" "storage" {
 # Création des 20 Blob container
 resource "azurerm_storage_container" "container" {
   count                 = "20" # Count Value read from variable
-  name                  = "${var.container_name_pfx}-${count.index}"
+  name                  = "${var.resource_pfx}container${format("%02d", count.index + 1)}"
   storage_account_name  = azurerm_storage_account.storage.name
   container_access_type = "blob"
    depends_on            = [azurerm_storage_account.storage]
