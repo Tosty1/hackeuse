@@ -88,19 +88,11 @@ resource "mysql_grant" "p20clouddev" {
 resource "random_password" "dbpassword" {
   length  = 20
   special = false
-  count   = (var.database_count * 2) + 1
+  count   = var.database_count + 1
 }
 
 #######################################################################
-# Export du certificat
-
-resource "local_file" "mycert" {
-  content  = data.http.downloadcert.body
-  filename = "mycert.crt.pem"
-}
-
-
-# Export des infos user, db et certificat
+# Export des infos user, db
 # parsing des infos à l'aide d'une boucle for et de conditions basées sur l'index du dbpassword
 resource "local_sensitive_file" "export" {
   depends_on = [random_password.dbpassword]
