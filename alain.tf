@@ -43,7 +43,7 @@ resource "azurerm_mariadb_firewall_rule" "p20cloud2" {
 }
 
 #######################################################################
-# Creation de base de données mariadb
+# Creation de base de données mariadbtest
 
 resource "azurerm_mariadb_database" "p20clouddev" {
   name                = "${var.resource_pfx}dev${format("%02d", count.index + 1)}"

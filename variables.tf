@@ -1,3 +1,4 @@
+
 #Variables des ressources communes 
 variable "nbress" {
   type        = number
@@ -11,10 +12,8 @@ variable "resource-group-name" {
 
 variable "resource-group-location" {
   type    = string
-  default = "West Europe"
+  default = "northeurope"
 }
-
-#variable pour l'app service
 variable "app-service-plan-name" {
   type    = string
   default = "brief13serviceplan"
