@@ -99,10 +99,8 @@ resource "local_sensitive_file" "export" {
   content = yamlencode(
     [for elem in random_password.dbpassword[*].result :
       index(random_password.dbpassword[*].result, elem) == 0 ?
-      "server = ${var.resource_pfx}mariadb.mariadb.database.azure.com   certificat = mycert.crt.pem   admin-login = ${var.admin_login}   admin-password = ${random_password.dbpassword[0].result}" :
-      index(random_password.dbpassword[*].result, elem) <= 10 ?
-      "login = ${var.resource_pfx}devuser${format("%02d", index(random_password.dbpassword[*].result, elem))}   password = ${elem}   database = ${var.resource_pfx}dev${format("%02d", index(random_password.dbpassword[*].result, elem))}" :
-      "login = ${var.resource_pfx}produser${format("%02d", index(random_password.dbpassword[*].result, elem) - 10)}   password = ${elem}   database = ${var.resource_pfx}prod${format("%02d", index(random_password.dbpassword[*].result, elem) - 10)}"
+      "server = ${var.resource_pfx}mariadb.mariadb.database.azure.com   admin-login = ${var.admin_login}   admin-password = ${random_password.dbpassword[0].result}" :
+      "login = ${var.resource_pfx}hackeuse${format("%02d", index(random_password.dbpassword[*].result, elem) - 10)}   password = ${elem}   database = ${var.resource_pfx}db${format("%02d", index(random_password.dbpassword[*].result, elem) - 10)}"
     ]
   )
   filename = "mariadb.txt"

@@ -13,12 +13,10 @@ resource "azurerm_service_plan" "plan" {
   location            = var.resource_group_location
   resource_group_name = var.resource_group_name
   os_type             = "Linux"
-  sku_name            = "S1"
+  sku_name            = "P1" # S1, S2, S3 , P1, P2, P3
 
   depends_on = [azurerm_resource_group]
 }
-
-
 
 ############################################################
 # Azure web app
