@@ -26,8 +26,8 @@ resource "azurerm_linux_web_app" "webappbrief13" {
   name                = "webappwordpress${count.index + 1}"
   resource_group_name = var.resource-group-name
   location            = var.resource-group-location
-  service_plan_id     = azurem_service_plan.plan.id
-  count               = var.webappcount
+  service_plan_id     = azurerm_service_plan.plan.id
+  count               = var.nbress
   site_config {}
 
   depends_on = [

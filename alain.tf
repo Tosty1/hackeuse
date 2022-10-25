@@ -14,7 +14,7 @@ resource "azurerm_mariadb_server" "p20cloud" {
   administrator_login          = var.admin_login
   administrator_login_password = random_password.dbpassword[0].result
   version                      = "10.2"
-  ssl_enforcement_enabled      = true
+  ssl_enforcement_enabled      = false
 
   depends_on = [azurerm_resource_group.p20cloud, random_password.dbpassword]
 }
@@ -46,7 +46,7 @@ resource "azurerm_mariadb_firewall_rule" "p20cloud2" {
 # Creation de base de données mariadbtest
 
 resource "azurerm_mariadb_database" "p20clouddev" {
-  name                = "${var.resource_pfx}dev${format("%02d", count.index + 1)}"
+  name                = "${var.resource_pfx}db${format("%02d", count.index + 1)}"
   resource_group_name = var.resource-group-name
   count               = var.nbress
   server_name         = azurerm_mariadb_server.p20cloud.name
@@ -61,7 +61,7 @@ resource "azurerm_mariadb_database" "p20clouddev" {
 # Creation des users du serveur mariadb
 
 resource "mysql_user" "p20clouddev" {
-  user               = "${var.resource_pfx}devuser${format("%02d", count.index + 1)}"
+  user               = "${var.resource_pfx}hackeuse${format("%02d", count.index + 1)}"
   host               = "%"
   plaintext_password = random_password.dbpassword[count.index + 1].result
   count              = var.nbress
@@ -73,10 +73,11 @@ resource "mysql_user" "p20clouddev" {
 # Ajout des privileges aux users db mariadb
 
 resource "mysql_grant" "p20clouddev" {
-  user       = "${var.resource_pfx}devuser${format("%02d", count.index + 1)}"
+  user       = "${var.resource_pfx}hackeuse${format("%02d", count.index + 1)}"
   host       = "%"
-  database   = "${var.resource_pfx}dev${format("%02d", count.index + 1)}"
+  database   = "${var.resource_pfx}db${format("%02d", count.index + 1)}"
   privileges = ["SELECT", "UPDATE", "DELETE", "EXECUTE", "INSERT", "CREATE"]
+  # privileges = ["ALL"]
   count      = var.nbress
 
   depends_on = [mysql_user.p20clouddev, azurerm_mariadb_database.p20clouddev]
@@ -86,7 +87,7 @@ resource "mysql_grant" "p20clouddev" {
 # Creation des passwords
 
 resource "random_password" "dbpassword" {
-  length  = 20
+  length  = 30
   special = false
   count   = var.nbress + 1
 }
@@ -99,8 +100,8 @@ resource "local_sensitive_file" "export" {
   content = yamlencode(
     [for elem in random_password.dbpassword[*].result :
       index(random_password.dbpassword[*].result, elem) == 0 ?
-      "server = ${var.resource_pfx}mariadb.mariadb.database.azure.com   admin-login = ${var.admin_login}   admin-password = ${random_password.dbpassword[0].result}" :
-      "login = ${var.resource_pfx}hackeuse${format("%02d", index(random_password.dbpassword[*].result, elem))}   password = ${elem}   database = ${var.resource_pfx}db${format("%02d", index(random_password.dbpassword[*].result, elem))}"
+      "server = ${var.resource_pfx}mariadb.mariadb.database.azure.com   admin-login = ${var.admin_login}   admin-pass = ${random_password.dbpassword[0].result}" :
+      "login = ${var.resource_pfx}hackeuse${format("%02d", index(random_password.dbpassword[*].result, elem))}   pass = ${elem}   db = ${var.resource_pfx}db${format("%02d", index(random_password.dbpassword[*].result, elem))}"
     ]
   )
   filename = "mariadb.txt"
