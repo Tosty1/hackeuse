@@ -32,7 +32,7 @@ data "azurerm_storage_account_blob_container_sas" "sas_key_gen" {
   https_only        = true
 
   start  = "2022-10-26"
-  expiry = "2022-11-21"
+  expiry = "2022-12-26"
 
   permissions {
     read   = true
