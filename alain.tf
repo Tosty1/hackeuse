@@ -16,7 +16,7 @@ resource "azurerm_mariadb_server" "p20cloud" {
   version                      = "10.2"
   ssl_enforcement_enabled      = false
 
-  depends_on = [azurerm_resource_group.p20cloud, random_password.dbpassword]
+  depends_on = [azurerm_resource_group.rg, random_password.dbpassword]
 }
 
 #######################################################################
