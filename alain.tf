@@ -78,7 +78,7 @@ resource "mysql_grant" "p20clouddev" {
   database   = "${var.resource_pfx}db${format("%02d", count.index + 1)}"
   privileges = ["SELECT", "UPDATE", "DELETE", "EXECUTE", "INSERT", "CREATE"]
   # privileges = ["ALL"]
-  count      = var.nbress
+  count = var.nbress
 
   depends_on = [mysql_user.p20clouddev, azurerm_mariadb_database.p20clouddev]
 }

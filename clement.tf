@@ -19,7 +19,7 @@ resource "azurerm_storage_container" "container" {
   name                  = "${var.resource_pfx}container${format("%02d", count.index + 1)}"
   storage_account_name  = azurerm_storage_account.storage.name
   container_access_type = "blob"
-   depends_on            = [azurerm_storage_account.storage]
+  depends_on            = [azurerm_storage_account.storage]
 }
 /*
 # Création du dossier prod dans les 10 blob container (wordpress creer les blobs tout seul )
