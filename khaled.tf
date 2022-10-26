@@ -35,10 +35,13 @@ resource "azurerm_linux_web_app" "webappbrief13" {
   ]
 
  app_settings = {
-  
+          
+  //DOCKER_REGISTRY_SERVER_URL = "https://hub.docker.com/_/wordpress"
+
   "DB_NAME" = var.database_config[count.index].DB_NAME,
   "DB_USER" = var.database_config[count.index].DB_USER,
   "DB_PASSWORD" = var.database_config[count.index].DB_PASSWORD
+
    }  
 
  }
