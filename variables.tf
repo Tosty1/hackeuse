@@ -32,55 +32,6 @@ variable "admin_login" {
 }
 
 
-# locals {
-#  env_variables = {
-#    DB_NAME            = ""
-#    DB_USER       = ""
-#    DB_PASSWORD       = ""
-#    DB_HOST = ""
-#    DB_CHARSET= "utf8"
-#   DB_COLLATE= ""
-
-#  }
-
-# }
-# variable "DB_NAME" {
-#   type = list
-#   default = ["","","","","","","","","","","","","","","","","","","",""]
-
-# }
-# variable "DB_USER" {
-#   type = list
-#   default = ["","","","","","","","","","","","","","","","","","","",""]
-
-# }
-# variable "DB_PASSWORD" {
-#   type = list
-#   default = ["","","","","","","","","","","","","","","","","","","",""]
-
-# }
-# variable "DB_HOST" {
-#   type = string
-#   default = ""
-
-# }
-variable "DB_CHARSET" {
-  type    = string
-  default = "utf8"
-
-}
-
-variable "DB_HOST" {
-  type    = string
-  default = ""
-
-
-}
-variable "DB_COLLATE" {
-  type    = string
-  default = ""
-
-}
 variable "database_config" {
   type = list(object({
     DB_NAME     = string
@@ -190,5 +141,22 @@ variable "database_config" {
       DB_PASSWORD : ""
     },
   ]
+
+}
+variable "DB_CHARSET" {
+  type    = string
+  default = "utf8"
+
+}
+
+variable "DB_HOST" {
+  type    = string
+  default = ""
+
+
+}
+variable "DB_COLLATE" {
+  type    = string
+  default = ""
 
 }
