@@ -34,5 +34,5 @@ resource "azurerm_linux_web_app" "webappbrief13" {
     azurerm_resource_group.rg, azurerm_service_plan.plan
   ]
 
- app_settings = local.env_variables   
+  app_settings = local.env_variables
 }
