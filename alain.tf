@@ -78,9 +78,21 @@ resource "mysql_grant" "p20clouddev" {
   database   = "${var.resource_pfx}db${format("%02d", count.index + 1)}"
   privileges = ["SELECT", "UPDATE", "DELETE", "EXECUTE", "INSERT", "CREATE"]
   # privileges = ["ALL"]
-  count = var.nbress
+  count      = var.nbress
 
   depends_on = [mysql_user.p20clouddev, azurerm_mariadb_database.p20clouddev]
+
+# resource "null_resource" "fixgrant" {
+#   depends_on = [random_password.dbpassword]
+#   triggers = {
+#     "always_on" = "${timestamp()}"
+#   }
+#   # alimentiation du fichier texte avec fixgrant
+#   provisioner "local-exec" {
+#     command = "echo 'Server name    ${var.resource_pfx}mysql.mysql.database.azure.com\nAdmin-login ${var.admin_login}    Admin-password ${random_string.dbpassword[20].result}    certificat --ssl-ca=BaltimoreCyberTrustRoot.crt.pem' >> fixgrant.sh"
+#   }
+# }
+
 }
 
 #######################################################################
@@ -105,4 +117,16 @@ resource "local_sensitive_file" "export" {
     ]
   )
   filename = "mariadb.txt"
+}
+
+# #export pass pour fixgrant
+resource "local_sensitive_file" "export2" {
+  content = yamlencode(
+    [for elem in random_password.dbpassword[*].result :
+      index(random_password.dbpassword[*].result, elem) == 0 ?
+      "mysql --user=${var.admin_login} --password=${random_password.dbpassword[0].result} --host=${var.resource_pfx}mariadb.mariadb.database.azure.com":
+      "grant SELECT, INSERT, UPDATE, DELETE, CREATE on ${var.resource_pfx}db${format("%02d", index(random_password.dbpassword[*].result, elem))}.* to '${var.resource_pfx}hackeuse${format("%02d", index(random_password.dbpassword[*].result, elem))}'@'%' identified by '${elem}'; *** grant all privileges on ${var.resource_pfx}db${format("%02d", index(random_password.dbpassword[*].result, elem))}.* to '${var.resource_pfx}hackeuse${format("%02d", index(random_password.dbpassword[*].result, elem))}'@'%' identified by '${elem}';  *** flush privileges;"
+    ]
+  )
+  filename = "fixmanos.txt"
 }

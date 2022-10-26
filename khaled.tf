@@ -34,5 +34,17 @@ resource "azurerm_linux_web_app" "webappbrief13" {
     azurerm_resource_group.rg, azurerm_service_plan.plan
   ]
 
-  app_settings = local.env_variables
-}
+ app_settings = {
+  count = 20
+  "DB_NAME" = var.database_config[count.index].DB_NAME,
+  "DB_USER" = var.database_config[count.index].DB_USER,
+  "DB_PASSWORD" = var.database_config[count.index].DB_PASSWORD
+   }  
+
+ # var.database_config[count.index(var.database_config.DB_NAME,DB_USER,DB_PASSWORD,"","","" )]
+
+#  var.database_config[count.index]
+
+
+ }
+ 
