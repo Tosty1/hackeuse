@@ -81,8 +81,8 @@ resource "azurerm_storage_account" "backupstr" {
   account_replication_type = "LRS"
 }
 
-resource "azurerm_backup_container_storage_account" "container" {
-  resource_group_name = azurerm_resource_group.example.name
+resource "azurerm_backup_container_storage_account" "backupcontainer" {
+  resource_group_name = var.resource-group-name
   recovery_vault_name = azurerm_recovery_services_vault.vault.name
-  storage_account_id  = azurerm_storage_account.sa.id
+  storage_account_id  = azurerm_storage_account.backupstr.id
 }
