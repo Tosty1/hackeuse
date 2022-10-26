@@ -41,8 +41,5 @@ resource "azurerm_linux_web_app" "webappbrief13" {
   "DB_PASSWORD" = var.database_config[count.index].DB_PASSWORD
    }  
 
-
-
-
  }
  
